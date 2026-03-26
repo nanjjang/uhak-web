@@ -1,9 +1,7 @@
 "use client";
 
 import { useAuth } from "@/lib/auth-context";
-import LoginPage from "@/components/LoginPage";
-import SchoolSetup from "@/components/SchoolSetup";
-import MainApp from "@/components/MainApp";
+import LandingPage from "@/components/LandingPage";
 
 export default function Home() {
   const { user, appUser, loading } = useAuth();
@@ -19,7 +17,5 @@ export default function Home() {
     );
   }
 
-  if (!user) return <LoginPage />;
-  if (!appUser?.school || !appUser?.grade || !appUser?.classNumber) return <SchoolSetup />;
-  return <MainApp />;
+  return <LandingPage />;
 }

@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 
 export default function LoginPage() {
-  const { loginWithEmail, registerWithEmail, loginWithGoogle } = useAuth();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const { loginWithEmail, registerWithEmail, loginWithGoogle, user } = useAuth();
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<"login" | "register">(
+    searchParams.get("mode") === "register" ? "register" : "login"
+  );
+
+  useEffect(() => {
+    if (user) window.location.href = "/app";
+  }, [user]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -30,12 +38,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: "var(--bg)" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ background: "var(--bg)" }}>
+      {/* Back to home */}
+      <a href="/" className="absolute top-6 left-6 flex items-center gap-2 text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
+        <span>←</span> 홈으로
+      </a>
+
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style={{ background: "var(--primary)" }}>
-            <span className="text-white text-2xl">🎓</span>
+            <span className="text-white text-2xl font-bold">우</span>
           </div>
           <h1 className="text-3xl font-bold" style={{ color: "var(--text-primary)" }}>우학</h1>
           <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>우리학교</p>

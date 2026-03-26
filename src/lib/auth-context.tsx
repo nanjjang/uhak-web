@@ -163,6 +163,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await signOut(auth);
     setAppUser(null);
     applyTheme("system");
+    window.location.href = "/";
   };
 
   const deleteAccount = async () => {
@@ -171,6 +172,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await deleteUser(user);
     setAppUser(null);
     applyTheme("system");
+    window.location.href = "/";
   };
 
   const updateAppUser = async (data: Partial<AppUser>) => {
