@@ -1,21 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import MealTab from "./tabs/MealTab";
 import TimetableTab from "./tabs/TimetableTab";
 import ScheduleTab from "./tabs/ScheduleTab";
 import TasksTab from "./tabs/TasksTab";
 import SettingsTab from "./tabs/SettingsTab";
+import { UtensilsCrossed, Clock, CalendarDays, CheckSquare, Settings } from "lucide-react";
 
-const tabs = [
-  { id: "meal", label: "급식", icon: "🍽️" },
-  { id: "timetable", label: "시간표", icon: "📋" },
-  { id: "schedule", label: "학사일정", icon: "📅" },
-  { id: "tasks", label: "할 일", icon: "✅" },
-  { id: "settings", label: "설정", icon: "⚙️" },
-] as const;
+const tabs: { id: string; label: string; icon: ReactNode }[] = [
+  { id: "meal", label: "급식", icon: <UtensilsCrossed size={20} strokeWidth={1.8} /> },
+  { id: "timetable", label: "시간표", icon: <Clock size={20} strokeWidth={1.8} /> },
+  { id: "schedule", label: "학사일정", icon: <CalendarDays size={20} strokeWidth={1.8} /> },
+  { id: "tasks", label: "할 일", icon: <CheckSquare size={20} strokeWidth={1.8} /> },
+  { id: "settings", label: "설정", icon: <Settings size={20} strokeWidth={1.8} /> },
+];
 
-type TabId = (typeof tabs)[number]["id"];
+type TabId = "meal" | "timetable" | "schedule" | "tasks" | "settings";
 
 export default function MainApp() {
   const [activeTab, setActiveTab] = useState<TabId>("meal");
@@ -39,13 +40,14 @@ export default function MainApp() {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className="flex flex-col items-center gap-0.5 min-w-[56px] transition-all"
+            onClick={() => setActiveTab(tab.id as TabId)}
+            className="flex flex-col items-center gap-1 min-w-[56px] transition-all"
           >
             <span
-              className="text-lg px-3 py-1 rounded-xl transition-all"
+              className="px-3 py-1.5 rounded-xl transition-all flex items-center justify-center"
               style={{
                 background: activeTab === tab.id ? "var(--primary-light)" : "transparent",
+                color: activeTab === tab.id ? "var(--primary)" : "var(--text-tertiary)",
               }}
             >
               {tab.icon}
