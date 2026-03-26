@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { fetchWeekTimetable, TimetableEntry } from "@/lib/neis";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const DAY_LABELS = ["월", "화", "수", "목", "금"];
 
@@ -16,21 +17,6 @@ function getMonday(d: Date): Date {
 
 function fmt(d: Date): string {
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
-}
-
-const subjectColors: Record<string, string> = {
-  "국어": "#007AFF", "수학": "#FF3B30", "영어": "#34C759",
-  "과학": "#FF9500", "사회": "#AF52DE", "역사": "#A2845E",
-  "도덕": "#FF2D92", "음악": "#32ADE6", "미술": "#FFD60A",
-  "체육": "#00C7BE", "기술가정": "#5856D6", "정보": "#30B0C7",
-  "프로그래밍": "#30B0C7",
-};
-
-function getSubjectColor(subject: string): string {
-  for (const [key, color] of Object.entries(subjectColors)) {
-    if (subject.includes(key)) return color;
-  }
-  return "#4363E9";
 }
 
 export default function TimetableTab() {
@@ -80,21 +66,21 @@ export default function TimetableTab() {
       </div>
 
       {/* Week nav */}
-      <div className="flex items-center justify-between px-4 py-3" style={{ background: "var(--card)", borderBottom: "1px solid var(--divider)" }}>
-        <button onClick={() => moveWeek(-1)} className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "var(--primary-light)" }}>
-          <span style={{ color: "var(--primary)" }}>‹</span>
+      <div className="flex items-center justify-between px-4 py-3">
+        <button onClick={() => moveWeek(-1)} className="w-8 h-8 rounded-full flex items-center justify-center" style={{ color: "var(--text-secondary)" }}>
+          <ChevronLeft size={18} />
         </button>
         <div className="text-center">
           <div className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{weekLabel}</div>
           {isCurrentWeek && <div className="text-[10px] font-medium" style={{ color: "var(--primary)" }}>이번 주</div>}
         </div>
-        <button onClick={() => moveWeek(1)} className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "var(--primary-light)" }}>
-          <span style={{ color: "var(--primary)" }}>›</span>
+        <button onClick={() => moveWeek(1)} className="w-8 h-8 rounded-full flex items-center justify-center" style={{ color: "var(--text-secondary)" }}>
+          <ChevronRight size={18} />
         </button>
       </div>
 
       {/* Grid */}
-      <div className="p-3">
+      <div className="px-3 pb-4">
         {loading ? (
           <div className="space-y-2">
             {Array.from({ length: 7 }, (_, i) => (
@@ -102,18 +88,24 @@ export default function TimetableTab() {
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl overflow-hidden" style={{ background: "var(--card)", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
+          <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid var(--divider)" }}>
             {/* Header */}
-            <div className="grid grid-cols-[36px_repeat(5,1fr)]">
+            <div className="grid grid-cols-[32px_repeat(5,1fr)]" style={{ background: "var(--card)" }}>
               <div />
               {weekDates.map((d, i) => {
                 const isToday = fmt(d) === fmt(new Date());
                 return (
-                  <div key={i} className="text-center py-2" style={{ background: isToday ? "var(--primary-light)" : "transparent" }}>
-                    <div className="text-[10px] font-semibold" style={{ color: isToday ? "var(--primary)" : "var(--text-secondary)" }}>
+                  <div key={i} className="text-center py-2.5">
+                    <div
+                      className="text-xs font-medium"
+                      style={{ color: isToday ? "var(--primary)" : "var(--text-tertiary)" }}
+                    >
                       {DAY_LABELS[i]}
                     </div>
-                    <div className="text-xs font-medium" style={{ color: isToday ? "var(--primary)" : "var(--text-tertiary)" }}>
+                    <div
+                      className="text-sm font-semibold mt-0.5"
+                      style={{ color: isToday ? "var(--primary)" : "var(--text-primary)" }}
+                    >
                       {d.getDate()}
                     </div>
                   </div>
@@ -123,35 +115,42 @@ export default function TimetableTab() {
 
             {/* Rows */}
             {Array.from({ length: maxPeriod }, (_, p) => p + 1).map((period) => (
-              <div key={period} className="grid grid-cols-[36px_repeat(5,1fr)]" style={{ borderTop: "1px solid var(--divider)" }}>
-                <div className="flex items-center justify-center text-xs font-bold" style={{ color: "var(--text-secondary)", minHeight: 56 }}>
+              <div
+                key={period}
+                className="grid grid-cols-[32px_repeat(5,1fr)]"
+                style={{ borderTop: "1px solid var(--divider)" }}
+              >
+                <div
+                  className="flex items-center justify-center text-xs font-medium"
+                  style={{ color: "var(--text-tertiary)", minHeight: 52 }}
+                >
                   {period}
                 </div>
                 {weekDates.map((d, i) => {
                   const dateStr = fmt(d);
                   const entry = entriesByDate[dateStr]?.find((e) => parseInt(e.period) === period);
                   const isToday = dateStr === fmt(new Date());
-                  const color = entry ? getSubjectColor(entry.subject) : "transparent";
 
                   return (
                     <div
                       key={i}
-                      className="flex flex-col items-center justify-center p-1"
+                      className="flex items-center justify-center p-1"
                       style={{
-                        minHeight: 56,
-                        background: isToday ? "rgba(67,99,233,0.03)" : "transparent",
+                        minHeight: 52,
+                        background: isToday ? "var(--primary-light)" : "var(--card)",
+                        borderLeft: "1px solid var(--divider)",
                       }}
                     >
                       {entry && (
-                        <div
-                          className="w-full rounded-lg p-1.5 text-center"
-                          style={{ background: color + "12" }}
-                        >
-                          <div className="text-[11px] font-semibold leading-tight" style={{ color }}>
+                        <div className="text-center px-0.5">
+                          <div
+                            className="text-[13px] font-medium leading-tight"
+                            style={{ color: "var(--text-primary)" }}
+                          >
                             {entry.subject}
                           </div>
                           {entry.teacher && (
-                            <div className="text-[9px] mt-0.5" style={{ color: "var(--text-tertiary)" }}>
+                            <div className="text-[10px] mt-0.5" style={{ color: "var(--text-tertiary)" }}>
                               {entry.teacher}
                             </div>
                           )}
