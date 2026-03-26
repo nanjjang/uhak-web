@@ -39,11 +39,11 @@ export default function MainApp() {
 
       {/* Content */}
       <main className="flex-1 pt-12 pb-20 max-w-2xl mx-auto w-full">
-        {activeTab === "meal" && <MealTab />}
-        {activeTab === "timetable" && <TimetableTab />}
-        {activeTab === "schedule" && <ScheduleTab />}
-        {activeTab === "tasks" && <TasksTab />}
-        {activeTab === "settings" && <SettingsTab />}
+        <div style={{ display: activeTab === "meal" ? "block" : "none" }}><MealTab /></div>
+        <div style={{ display: activeTab === "timetable" ? "block" : "none" }}><TimetableTab /></div>
+        <div style={{ display: activeTab === "schedule" ? "block" : "none" }}><ScheduleTab /></div>
+        <div style={{ display: activeTab === "tasks" ? "block" : "none" }}><TasksTab /></div>
+        <div style={{ display: activeTab === "settings" ? "block" : "none" }}><SettingsTab /></div>
       </main>
 
       {/* Bottom Tab Bar */}
