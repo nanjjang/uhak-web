@@ -1,10 +1,11 @@
 "use client";
 
 import { useAuth } from "@/lib/auth-context";
-import { useRouter } from "next/navigation";
+import UhakLogo from "./UhakLogo";
+import { UtensilsCrossed, CalendarDays, Clock, Users, ChevronRight, ArrowRight } from "lucide-react";
 
 export default function LandingPage() {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   const handleStart = () => {
     if (user) {
@@ -18,123 +19,126 @@ export default function LandingPage() {
     <div style={{ background: "var(--bg)" }}>
       {/* Header */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
+        className="fixed top-0 left-0 right-0 z-50"
         style={{ background: "var(--bg)", borderBottom: "1px solid var(--divider)" }}
       >
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--primary)" }}>
-            <span className="text-white text-sm font-bold">우</span>
+        <div className="max-w-5xl mx-auto flex items-center justify-between px-5 h-14">
+          <a href="/" className="flex items-center gap-2.5">
+            <div style={{ color: "var(--primary)" }}>
+              <UhakLogo size={18} />
+            </div>
+            <span className="text-base font-bold" style={{ color: "var(--text-primary)" }}>우학</span>
+          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="/login"
+              className="px-4 py-2 rounded-lg text-sm font-medium"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              로그인
+            </a>
+            <a
+              href="/login?mode=register"
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-white"
+              style={{ background: "var(--primary)" }}
+            >
+              시작하기
+            </a>
           </div>
-          <span className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>우학</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <a
-            href="/login"
-            className="px-4 py-2 rounded-xl text-sm font-medium transition-all hover:opacity-80"
-            style={{ color: "var(--text-primary)" }}
-          >
-            로그인
-          </a>
-          <a
-            href="/login?mode=register"
-            className="px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-            style={{ background: "var(--primary)" }}
-          >
-            회원가입
-          </a>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-6 pt-20">
-        <div className="text-center max-w-2xl mx-auto">
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8"
-            style={{ background: "var(--primary-light)", color: "var(--primary)" }}
+      <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 px-5">
+        <div className="max-w-2xl mx-auto text-center">
+          <p
+            className="text-sm font-medium mb-5"
+            style={{ color: "var(--primary)" }}
           >
-            학교 생활의 모든 것
-          </div>
+            학교 생활을 더 편리하게
+          </p>
           <h1
-            className="text-5xl sm:text-6xl font-extrabold leading-tight tracking-tight"
-            style={{ color: "var(--text-primary)" }}
+            className="text-3xl sm:text-5xl font-bold leading-tight"
+            style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}
           >
-            학교 생활,
+            급식, 시간표, 일정을
             <br />
-            <span style={{ color: "var(--primary)" }}>한 곳에서</span> 관리하세요
+            한 곳에서 확인하세요
           </h1>
           <p
-            className="mt-6 text-lg leading-relaxed max-w-lg mx-auto"
+            className="mt-5 text-base sm:text-lg leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
           >
-            급식, 시간표, 학사일정, 수행평가까지.
-            <br />
-            같은 반 친구들과 함께 확인하고 공유하세요.
+            같은 반 친구들과 수행평가, 과제 일정을 공유하고
+            <br className="hidden sm:block" />
+            학교 생활에 필요한 정보를 빠르게 확인할 수 있어요.
           </p>
-          <button
-            onClick={handleStart}
-            className="mt-10 px-8 py-4 rounded-2xl text-white font-semibold text-base transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
-            style={{ background: "var(--primary)", boxShadow: "0 4px 24px rgba(67,99,233,0.3)" }}
-          >
-            지금 시작하기
-          </button>
-          <p className="mt-4 text-sm" style={{ color: "var(--text-tertiary)" }}>
-            무료로 이용할 수 있어요
-          </p>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              onClick={handleStart}
+              className="w-full sm:w-auto px-6 py-3 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2"
+              style={{ background: "var(--primary)" }}
+            >
+              무료로 시작하기
+              <ArrowRight size={16} />
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="py-24 px-6">
+      <section className="py-16 sm:py-24 px-5">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
-              이런 기능이 있어요
-            </h2>
-            <p className="mt-4 text-base" style={{ color: "var(--text-secondary)" }}>
-              학교 생활에 필요한 핵심 기능만 담았어요
-            </p>
-          </div>
+          <h2
+            className="text-2xl sm:text-3xl font-bold text-center mb-4"
+            style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}
+          >
+            주요 기능
+          </h2>
+          <p className="text-center text-sm mb-12" style={{ color: "var(--text-secondary)" }}>
+            학교 생활에 꼭 필요한 것만 담았어요
+          </p>
 
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               {
-                icon: "🍽️",
+                icon: <UtensilsCrossed size={20} />,
                 title: "급식",
-                desc: "오늘 뭐 먹지? 주간 급식 메뉴를 한눈에 확인하세요.",
+                desc: "주간 급식 메뉴를 한눈에 확인할 수 있어요.",
                 color: "#FF9500",
               },
               {
-                icon: "📋",
+                icon: <Clock size={20} />,
                 title: "시간표",
-                desc: "이번 주 시간표를 깔끔한 표로 확인하세요.",
+                desc: "주 단위 시간표를 깔끔하게 볼 수 있어요.",
                 color: "#4363E9",
               },
               {
-                icon: "📅",
+                icon: <CalendarDays size={20} />,
                 title: "학사일정",
-                desc: "시험, 방학, 행사 일정을 캘린더로 확인하세요.",
+                desc: "시험, 방학, 행사 등 학교 일정을 확인하세요.",
                 color: "#34C759",
               },
               {
-                icon: "✅",
+                icon: <Users size={20} />,
                 title: "할 일 공유",
-                desc: "수행평가, 과제를 같은 반 친구들과 함께 관리하세요.",
+                desc: "수행평가, 과제를 같은 반과 함께 관리하세요.",
                 color: "#AF52DE",
               },
             ].map((f) => (
               <div
                 key={f.title}
-                className="p-6 rounded-2xl transition-all hover:scale-[1.02]"
-                style={{ background: "var(--card)", boxShadow: "0 2px 16px rgba(0,0,0,0.04)" }}
+                className="p-5 rounded-2xl"
+                style={{ background: "var(--card)", border: "1px solid var(--divider)" }}
               >
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4"
-                  style={{ background: f.color + "1a" }}
+                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
+                  style={{ background: f.color + "14", color: f.color }}
                 >
                   {f.icon}
                 </div>
-                <h3 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{f.desc}</p>
+                <h3 className="text-base font-semibold" style={{ color: "var(--text-primary)" }}>{f.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -142,81 +146,108 @@ export default function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-24 px-6" style={{ background: "var(--card)" }}>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
-              3단계로 시작하세요
-            </h2>
-          </div>
+      <section className="py-16 sm:py-24 px-5" style={{ background: "var(--card)", borderTop: "1px solid var(--divider)", borderBottom: "1px solid var(--divider)" }}>
+        <div className="max-w-3xl mx-auto">
+          <h2
+            className="text-2xl sm:text-3xl font-bold text-center mb-12"
+            style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}
+          >
+            시작하는 방법
+          </h2>
 
-          <div className="grid sm:grid-cols-3 gap-8">
+          <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-3 sm:gap-8">
             {[
-              { step: "1", title: "회원가입", desc: "이메일 또는 Google 계정으로 간편하게 가입" },
-              { step: "2", title: "학교 설정", desc: "학교를 검색하고 학년, 반을 선택" },
-              { step: "3", title: "시작!", desc: "급식, 시간표, 할 일을 바로 확인" },
-            ].map((s) => (
-              <div key={s.step} className="text-center">
+              { num: "1", title: "회원가입", desc: "이메일 또는 Google 계정으로 가입하세요." },
+              { num: "2", title: "학교 설정", desc: "학교를 검색하고 학년, 반을 선택하세요." },
+              { num: "3", title: "바로 시작", desc: "급식, 시간표, 할 일을 확인하세요." },
+            ].map((s, i) => (
+              <div key={s.num} className="flex sm:flex-col items-start sm:items-center gap-4 sm:gap-3 sm:text-center">
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4 text-white"
-                  style={{ background: "var(--primary)" }}
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shrink-0"
+                  style={{ background: "var(--primary)", color: "#fff" }}
                 >
-                  {s.step}
+                  {s.num}
                 </div>
-                <h3 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>{s.title}</h3>
-                <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>{s.desc}</p>
+                <div>
+                  <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{s.title}</h3>
+                  <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>{s.desc}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Shared */}
-      <section className="py-24 px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="text-4xl mb-6">👥</div>
-          <h2 className="text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
+      {/* Shared feature */}
+      <section className="py-16 sm:py-24 px-5">
+        <div className="max-w-xl mx-auto text-center">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-5"
+            style={{ background: "var(--primary-light)", color: "var(--primary)" }}
+          >
+            <Users size={22} />
+          </div>
+          <h2
+            className="text-2xl sm:text-3xl font-bold"
+            style={{ color: "var(--text-primary)", letterSpacing: "-0.02em" }}
+          >
             같은 반 친구들과
             <br />함께 사용하세요
           </h2>
-          <p className="mt-4 text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            수행평가, 과제, 시험 일정을 한 명이 등록하면
-            <br />같은 학교 · 학년 · 반의 모든 친구가 실시간으로 확인할 수 있어요.
+          <p className="mt-4 text-sm sm:text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            한 명이 등록하면 같은 학교·학년·반의
+            <br />모든 친구가 실시간으로 확인할 수 있어요.
           </p>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6" style={{ background: "var(--card)" }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>
+      <section
+        className="py-16 sm:py-20 px-5"
+        style={{ background: "var(--card)", borderTop: "1px solid var(--divider)" }}
+      >
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: "var(--text-primary)" }}>
             지금 바로 시작해보세요
           </h2>
-          <p className="mt-4 text-base" style={{ color: "var(--text-secondary)" }}>
-            완전 무료, 가입만 하면 바로 사용할 수 있어요.
+          <p className="mt-3 text-sm" style={{ color: "var(--text-secondary)" }}>
+            무료로 이용할 수 있어요.
           </p>
           <button
             onClick={handleStart}
-            className="mt-8 px-8 py-4 rounded-2xl text-white font-semibold text-base transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
-            style={{ background: "var(--primary)", boxShadow: "0 4px 24px rgba(67,99,233,0.3)" }}
+            className="mt-6 px-6 py-3 rounded-xl text-white font-semibold text-sm inline-flex items-center gap-2"
+            style={{ background: "var(--primary)" }}
           >
-            우학 이용해보기
+            우학 시작하기
+            <ChevronRight size={16} />
           </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6" style={{ borderTop: "1px solid var(--divider)" }}>
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: "var(--primary)" }}>
-              <span className="text-white text-[10px] font-bold">우</span>
+      <footer style={{ borderTop: "1px solid var(--divider)" }}>
+        <div className="max-w-5xl mx-auto px-5 py-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <div style={{ color: "var(--text-secondary)" }}>
+                  <UhakLogo size={14} />
+                </div>
+                <span className="text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>우학</span>
+              </div>
+              <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                학교 생활을 더 편리하게
+              </p>
             </div>
-            <span className="text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>우학</span>
+            <div className="flex flex-col sm:items-end gap-1">
+              <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                교육정보 출처: NEIS 교육정보 개방 포털
+              </p>
+              <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                &copy; {new Date().getFullYear()} 우학. All rights reserved.
+              </p>
+            </div>
           </div>
-          <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-            교육정보 출처: NEIS 교육정보 개방 포털
-          </span>
         </div>
       </footer>
     </div>
